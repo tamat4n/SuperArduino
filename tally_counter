@@ -1,0 +1,60 @@
+//This program acts as a tally counter using a pushbutton and lcd
+#include <LiquidCrystal.h>
+#include <Wire.h>
+
+
+    #define REDLITE 3
+    #define GREENLITE 5
+    #define BLUELITE 6
+
+
+  LiquidCrystal lcd(7, 8, 9, 10, 11, 12);
+
+  //Constant Variables
+   int brightness = 255;
+   const int buttonPin = 2;
+
+  //changing variables
+   int count = 0;
+   int lastButtonState = LOW;
+   
+
+  
+void setup() {
+  // put your setup code here, to run once:
+
+  lcd.begin(16, 2);
+
+      pinMode(REDLITE, OUTPUT);
+      pinMode(GREENLITE, OUTPUT);
+      pinMode(BLUELITE, OUTPUT);
+Serial.begin(9600);
+
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+
+
+      analogWrite(REDLITE, 100);
+      analogWrite(GREENLITE, 100);
+      analogWrite(BLUELITE, 100);
+
+      int buttonState = digitalRead(buttonPin);
+
+      if (buttonState != lastButtonState){
+        if (buttonState == HIGH) {
+          count++;
+        } else {
+
+        }
+        delay(50);
+      }
+      lastButtonState = buttonState;
+
+     lcd.setCursor(0,0);
+     lcd.print("Button pressed");
+     lcd.setCursor(0,1);
+    lcd.print(count);
+    lcd.print(" times");
+}.
