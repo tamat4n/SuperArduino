@@ -1,0 +1,91 @@
+//This program takes the milliseconds of activity on the arduino and uses it to display a stopwatch on an LCD.
+#include <LiquidCrystal.h>
+#include <Wire.h>
+
+
+    #define REDLITE 3
+    #define GREENLITE 5
+    #define BLUELITE 6
+
+
+  LiquidCrystal lcd(7, 8, 9, 10, 11, 12);
+
+  //Constant Variables
+   int brightness = 255;
+
+  //changing variables
+   unsigned long time;
+   int days = 0;
+   int hours = 0;
+   int minutes = 0;
+   int seconds = 0;
+
+  
+void setup() {
+  // put your setup code here, to run once:
+
+  lcd.begin(16, 2);
+
+      pinMode(REDLITE, OUTPUT);
+      pinMode(GREENLITE, OUTPUT);
+      pinMode(BLUELITE, OUTPUT);
+Serial.begin(9600);
+
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+
+
+      analogWrite(REDLITE, 100);
+      analogWrite(GREENLITE, 100);
+      analogWrite(BLUELITE, 100);
+
+
+//************************Stopwatch Function*********************************
+time = millis();
+seconds = time / 1000; //Turn miliseconds into a useable unit
+
+//Check days
+if (seconds >= 86400)
+    {
+        days = seconds / 86400;
+        seconds = seconds % 86400; // Remove days from total seconds
+    }   
+//Check hours
+if (seconds >= 3600)
+    {
+         hours = seconds / 3600;
+        seconds = seconds % 3600; //Remove hours from total seconds
+    }
+//Check minutes4e
+if (seconds >= 60)
+    {
+        minutes = seconds / 60;
+        seconds = seconds % 60; //Remove minutes from total seconds
+    }
+    
+printTime();
+//***********************************************************************************************
+}
+
+float printTime()
+{
+  lcd.setCursor(0, 0);
+            lcd.print("Time active");
+   lcd.setCursor(0, 1);
+   if (days < 10) {lcd.print("0");}
+    lcd.print(days); lcd.print(":");
+    
+    if (hours < 10){lcd.print("0");}
+    lcd.print(hours); lcd.print(":");
+
+    if (minutes < 10){lcd.print("0");}
+    lcd.print(minutes); lcd.print(":");
+
+    if (seconds < 10){lcd.print("0");}
+    lcd.print(seconds);
+    
+
+    delay (1000);
+}
