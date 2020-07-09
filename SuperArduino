@@ -11,6 +11,7 @@ int brightness = 255;
 const int buttonPin1 = 2;
 const int buttonPin2 = 13;
 
+
 //Changing Variables
 int count = 0;
 int lastButton1State = LOW;
@@ -32,7 +33,6 @@ void setup() {
   pinMode(REDLITE, OUTPUT);
   pinMode(GREENLITE, OUTPUT);
   pinMode(BLUELITE, OUTPUT);
-
   Serial.begin(9600);
 }
 
@@ -43,14 +43,21 @@ float printMenu()
   lcd.print("Choose function");
   lcd.setCursor(0, 1);
   lcd.print("1, 2, 3, 4");
+
 }
+
+
 void loop() {
   // put your main code here, to run repeatedly:
   analogWrite(REDLITE, 100);
   analogWrite(GREENLITE, 100);
   analogWrite(BLUELITE, 100);
-
-
+  
+ // lcd.cursor();
+  //lcd.setCursor (3, 3);
+ //delay(50);
+  
+  printMenu();
 
   int button1State = digitalRead(buttonPin1);
 
@@ -64,46 +71,56 @@ void loop() {
   }
   lastButton1State = button1State;
 
+  
+  if (count > 4) {
+    count = 1;}
+    
+ moveCursor(count);
+// selectOption(count);
+
+ /* int col = 0;
+  int row = 0;
+
   switch (count) {
-    case 1: lcd.setCursor(0, 1);
-    case 2: lcd.setCursor(3, 1);
-    case 3: lcd.setCursor(6, 1);
-    case 4: lcd.setCursor(9, 1);
-  }
-
-  if (count > 3) {
-    count = 0;
-  }
-
-  int button2State = digitalRead(buttonPin2);
+    case 1: col = 0; row = 1;
+    case 2: col = 3; row = 1;
+    case 3: col = 6; row = 1;
+    case 4: col = 9; row = 1;   
+  } */
+  /* int button2State = digitalRead(buttonPin2);
 
   if (button2State != lastButton2State) {
     if (button2State == HIGH) {
-      poop++;
+      switch (count) {
+        case 1: performStopWatch();
+        case 2: performTallyCounter();
+        case 3: return 0;
+        case 4: return 0;
+      }
     } else {
 
     }
     delay(50);
   }
-  lastButton2State = button2State;
-
-
-
-  if (poop % 2 == 0 ) {
-    switch (count) {
-      case 1: performStopWatch();
-      case 2: performTallyCounter();
-        break;
-      case 3: return 0;
-      case 4: return 0;
-    }
-
-  } else {
-
-  }
-
+*/
 }
 
+void moveCursor(int) {
+   switch (count) {
+    case 1: lcd.setCursor(0, 1); lcd.blink(); delay(100); lcd.noBlink();
+    break;
+    case 2: lcd.setCursor(3, 1); lcd.blink(); delay(100); lcd.noBlink();
+    break;
+    case 3: lcd.setCursor(6, 1); lcd.blink(); delay(100); lcd.noBlink();
+    break;
+    case 4: lcd.setCursor(9, 1); lcd.blink(); delay(100); lcd.noBlink();
+    break;  
+  }
+  return (count);
+}
+
+//void selectOption(int) {
+  
 
 void performStopWatch() {
   int days = 0;
